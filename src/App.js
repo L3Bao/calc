@@ -67,46 +67,60 @@ class App extends React.Component {
 
   render() {
     const { operator, operand1, operand2 } = this.state;
-    const displayValue = operator ? operand2 : operand1;
+    let displayValue = `${operand1}${operator ? ' ' + operator : ''}${operand2 ? ' ' + operand2 : ''}`;
+
+
+
+    const keypad = [
+      [
+        { value: '1', function: this.inputDigit },
+        { value: '2', function: this.inputDigit },
+        { value: '3', function: this.inputDigit },
+        { value: '+', function: this.inputOperator },
+      ],
+      [
+        { value: '4', function: this.inputDigit },
+        { value: '5', function: this.inputDigit },
+        { value: '6', function: this.inputDigit },
+        { value: '-', function: this.inputOperator },
+      ],
+      [
+        { value: '7', function: this.inputDigit },
+        { value: '8', function: this.inputDigit },
+        { value: '9', function: this.inputDigit },
+        { value: '*', function: this.inputOperator },
+      ],
+      [
+        { value: '0', function: this.inputDigit },
+        { value: '/', function: this.inputOperator },
+        { value: '=', function: this.calculate },
+      ],
+      [
+        { value: 'Clear', function: this.clear },
+      ],
+    ];
 
     return (
       <div className="Calculator container mt-5">
         <input type="text" readOnly className="calculator-screen form-control mb-3" value={displayValue} />
-
-        
         <div className="calculator-keys">
-          <div className="row">
-            {[1, 2, 3].map((num) => (
-              <button key={num} className="btn border col" onClick={() => this.inputDigit(num)}>{num}</button>
-            ))}
-            <button className="btn border col" onClick={() => this.inputOperator('+')}>+</button>
-          </div>
-
-          <div className="row">
-            {[4, 5, 6].map((num) => (
-              <button key={num} className="btn border col" onClick={() => this.inputDigit(num)}>{num}</button>
-            ))}
-            <button className="btn border col" onClick={() => this.inputOperator('-')}>-</button>
-          </div>
-
-          <div className="row">
-            {[7, 8, 9].map((num) => (
-              <button key={num} className="btn border col" onClick={() => this.inputDigit(num)}>{num}</button>
-            ))}
-            <button className="btn border col" onClick={() => this.inputOperator('*')}>*</button>
-          </div>
-
-          <div className="row">
-            <button className="btn border col" onClick={() => this.inputDigit(0)}>0</button>
-            <button className="btn border col" onClick={() => this.inputOperator('/')}>/</button>
-            <button className="btn border col-6" onClick={this.calculate}>=</button>
-          </div>
-          <div className="row">
-            <button className="btn border col" onClick={this.clear}>Clear</button>
-          </div>
+          {keypad.map((row, rowIndex) => (
+            <div className="row" key={rowIndex}>
+              {row.map((key, keyIndex) => (
+                <button
+                  className="btn border col"
+                  onClick={() => key.function(key.value)}
+                  key={keyIndex}
+                >
+                  {key.value}
+                </button>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
     );
+
   }
 }
 
