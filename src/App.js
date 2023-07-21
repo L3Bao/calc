@@ -6,7 +6,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      operand1: '',
+      operand1: '0',
       operand2: '',
       operator: null,
     };
@@ -21,11 +21,11 @@ class App extends React.Component {
   inputDigit = (digit) => {
     const { operator, operand1, operand2 } = this.state;
     if (operator === null) {
-      this.setState({ operand1: operand1 + digit });
+      this.setState({ operand1: operand1 === '0' ? digit : operand1 + digit });
     } else {
       this.setState({ operand2: operand2 + digit });
     }
-  };
+  };  
 
   //This method is used to assign the value for the operator
   inputOperator = (operator) => {
@@ -62,7 +62,7 @@ class App extends React.Component {
   };
 
   clear = () => {
-    this.setState({ operand1: '', operand2: '', operator: null });
+    this.setState({ operand1: '0', operand2: '', operator: null });
   };
 
   render() {
